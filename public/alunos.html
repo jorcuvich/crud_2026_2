@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alunos</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body class="cor-aluno">
+
+<div class="topo">
+  <a class="marca" href="index.html">Sistema de Oficinas</a>
+  <nav>
+    <a href="index.html">Mapa</a>
+    <a href="turmas.html">Turmas</a>
+    <a href="alunos.html" class="atual">Alunos</a>
+    <a href="oficinas.html">Oficinas</a>
+    <a href="inscricoes.html">Inscricoes</a>
+    <a href="glossario.html">Glossario</a>
+  </nav>
+</div>
+
+<div class="pagina">
+
+  <h1>Alunos</h1>
+
+  <div class="fita-rotas">
+    <span>esta tela usa</span>
+    <b>ROTA 5</b> listar
+    <b>ROTA 6</b> cadastrar
+    <b>ROTA 7</b> alterar
+    <b>ROTA 8</b> excluir
+    <b>ROTA 1</b> para encher o select de turmas
+    <a href="index.html#rotas">ver o mapa</a>
+  </div>
+
+  <p class="aviso" id="aviso"></p>
+
+  <form id="formulario">
+
+    <input type="hidden" id="campoId" value="">
+
+    <div class="linha">
+
+      <label>
+        <span>Nome do aluno</span>
+        <input type="text" id="campoNome" placeholder="ex: Ana Prado">
+      </label>
+
+      <label>
+        <span>Turma</span>
+        <!-- Comeca vazio. O js/alunos.js enche com a rota 1.
+             Nunca escreva as opcoes aqui: turma nova cadastrada amanha
+             tem que aparecer sozinha. -->
+        <select id="campoTurma"></select>
+      </label>
+
+    </div>
+
+    <div class="botoes">
+      <button type="submit" id="botaoSalvar">Salvar</button>
+      <button type="button" class="fraco" id="botaoCancelar" hidden>cancelar</button>
+    </div>
+
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="fino">id</th>
+        <th>Nome</th>
+        <th>Turma</th>
+        <th class="fim"></th>
+      </tr>
+    </thead>
+    <tbody id="corpoTabela"></tbody>
+  </table>
+
+  <div class="caixa">
+    <strong>Um para muitos.</strong>
+    A tabela <code>aluno</code> guarda <code>turma_id</code>, que e um
+    NUMERO. A coluna Turma desta tabela mostra o nome, e esse nome foi
+    buscado na outra tabela por um <code>INNER JOIN</code>, dentro da
+    rota 5. Abra o painel embaixo e clique em qualquer botao para ver o
+    comando inteiro.
+  </div>
+
+</div>
+
+<div class="painel" id="painel">
+  <div class="painel-topo">
+    <strong>O que acabou de acontecer</strong>
+    <button type="button" class="fraco mini" id="botaoPainel">esconder</button>
+  </div>
+  <div class="painel-corpo" id="painelCorpo">
+    <p class="painel-vazio">Clique em algo e o caminho completo do seu clique aparece aqui.</p>
+  </div>
+</div>
+
+<script src="js/comum.js"></script>
+<script src="js/alunos.js"></script>
+
+</body>
+</html>

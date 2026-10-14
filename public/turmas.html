@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turmas</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body class="cor-turma">
+
+<div class="topo">
+  <a class="marca" href="index.html">Sistema de Oficinas</a>
+  <nav>
+    <a href="index.html">Mapa</a>
+    <a href="turmas.html" class="atual">Turmas</a>
+    <a href="alunos.html">Alunos</a>
+    <a href="oficinas.html">Oficinas</a>
+    <a href="inscricoes.html">Inscricoes</a>
+    <a href="glossario.html">Glossario</a>
+  </nav>
+</div>
+
+<div class="pagina">
+
+  <h1>Turmas</h1>
+
+  <!-- As rotas que ESTA tela usa. Procure o numero no servidor.js
+       e no js/turmas.js para ver os dois lados. -->
+  <div class="fita-rotas">
+    <span>esta tela usa</span>
+    <b>ROTA 1</b> listar
+    <b>ROTA 2</b> cadastrar
+    <b>ROTA 3</b> alterar
+    <b>ROTA 4</b> excluir
+    <a href="index.html#rotas">ver o mapa</a>
+  </div>
+
+  <p class="aviso" id="aviso"></p>
+
+  <form id="formulario">
+
+    <!-- Este campo nao aparece na tela.
+         Vazio    = o botao Salvar vai CADASTRAR    (rota 2)
+         Com id   = o botao Salvar vai ALTERAR      (rota 3) -->
+    <input type="hidden" id="campoId" value="">
+
+    <label>
+      <span>Nome da turma</span>
+      <input type="text" id="campoNome" placeholder="ex: 2A">
+    </label>
+
+    <div class="botoes">
+      <button type="submit" id="botaoSalvar">Salvar</button>
+      <button type="button" class="fraco" id="botaoCancelar" hidden>cancelar</button>
+    </div>
+
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="fino">id</th>
+        <th>Nome</th>
+        <th class="fim"></th>
+      </tr>
+    </thead>
+    <tbody id="corpoTabela"></tbody>
+  </table>
+
+  <div class="caixa">
+    Esta e a tabela mais simples do sistema: um campo so, e ela nao
+    aponta para ninguem. Comece lendo o arquivo <code>js/turmas.js</code>,
+    que tem 4 funcoes, uma para cada rota.
+  </div>
+
+</div>
+
+<!-- O painel que mostra o caminho de cada clique -->
+<div class="painel" id="painel">
+  <div class="painel-topo">
+    <strong>O que acabou de acontecer</strong>
+    <button type="button" class="fraco mini" id="botaoPainel">esconder</button>
+  </div>
+  <div class="painel-corpo" id="painelCorpo">
+    <p class="painel-vazio">Clique em algo e o caminho completo do seu clique aparece aqui.</p>
+  </div>
+</div>
+
+<script src="js/comum.js"></script>
+<script src="js/turmas.js"></script>
+
+</body>
+</html>

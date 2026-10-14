@@ -1,0 +1,529 @@
+/* ==========================================================================
+   estilo.css   -   A APARENCIA DE TODAS AS TELAS
+
+   Uma regra de CSS tem duas partes:
+
+        .fraco  {  color: gray;  }
+          ^            ^
+          |            |
+      o SELETOR    a DECLARACAO
+
+   Os tres seletores que resolvem quase tudo:
+
+        button    todos os <button>          (pela tag)
+        .fraco    quem tem class="fraco"     (ponto = classe)
+        #aviso    quem tem id="aviso"        (cerquilha = id)
+
+   Cada tabela do sistema tem uma COR, e ela e a mesma no mapa e na
+   tela: turma azul, aluno verde, oficina laranja, inscricao roxo.
+   ========================================================================== */
+
+
+:root {
+  --turma:     #2563eb;
+  --aluno:     #15803d;
+  --oficina:   #c2410c;
+  --inscricao: #7c3aed;
+
+  --cor:       #2563eb;    /* a cor da tela atual; cada body troca */
+
+  --vermelho:  #dc2626;
+  --verde:     #15803d;
+  --cinza:     #6b7280;
+  --linha:     #e5e7eb;
+  --fundo:     #f8fafc;
+  --tinta:     #0f172a;
+}
+
+/* Cada tela diz qual e a cor dela, e o resto do arquivo usa var(--cor) */
+body.cor-turma     { --cor: var(--turma); }
+body.cor-aluno     { --cor: var(--aluno); }
+body.cor-oficina   { --cor: var(--oficina); }
+body.cor-inscricao { --cor: var(--inscricao); }
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  background: var(--fundo);
+  color: var(--tinta);
+  margin: 0;
+  line-height: 1.6;
+  padding-bottom: 14rem;    /* espaco para o painel do pe da pagina */
+}
+
+
+/* --- a barra de cima --------------------------------------------------- */
+
+.topo {
+  background: #fff;
+  border-bottom: 1px solid var(--linha);
+  padding: .7rem 1.2rem;
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.marca {
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--tinta);
+  font-size: .95rem;
+}
+
+.topo nav { display: flex; gap: .25rem; flex-wrap: wrap; }
+
+.topo nav a {
+  text-decoration: none;
+  color: var(--cinza);
+  font-size: .85rem;
+  padding: .3rem .75rem;
+  border-radius: 999px;
+}
+
+.topo nav a:hover { background: var(--fundo); color: var(--tinta); }
+
+.topo nav a.atual {
+  background: var(--cor);
+  color: #fff;
+}
+
+
+/* --- a pagina ---------------------------------------------------------- */
+
+.pagina       { max-width: 780px;  margin: 0 auto; padding: 1.8rem 1.2rem 3rem; }
+.pagina.larga { max-width: 1000px; }
+
+h1 {
+  font-size: 1.5rem;
+  margin: 0 0 .4rem;
+  padding-left: .7rem;
+  border-left: 4px solid var(--cor);
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin: 2.6rem 0 .6rem;
+  padding-bottom: .3rem;
+  border-bottom: 1px solid var(--linha);
+}
+
+.linha-fina { color: var(--cinza); font-size: .92rem; margin: 0 0 1.2rem; }
+
+code {
+  background: #eef2f7;
+  padding: .12rem .35rem;
+  border-radius: 4px;
+  font-size: .86em;
+  font-family: Consolas, Monaco, monospace;
+}
+
+pre {
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: .78rem;
+  line-height: 1.6;
+  font-family: Consolas, Monaco, monospace;
+}
+
+pre code { background: none; padding: 0; color: inherit; font-size: 1em; }
+
+/* o desenho das tabelas, com cada nome na cor dela */
+.desenho .t { color: #7dd3fc; font-weight: 700; }
+.desenho .a { color: #86efac; font-weight: 700; }
+.desenho .o { color: #fdba74; font-weight: 700; }
+.desenho .i { color: #d8b4fe; font-weight: 700; }
+
+
+/* --- a fita com as rotas da tela --------------------------------------- */
+
+.fita-rotas {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  background: #fff;
+  border: 1px dashed var(--cor);
+  border-radius: 8px;
+  padding: .55rem .9rem;
+  margin: 1rem 0 1.5rem;
+  font-size: .8rem;
+  color: var(--cinza);
+}
+
+.fita-rotas b {
+  background: var(--cor);
+  color: #fff;
+  padding: .1rem .5rem;
+  border-radius: 4px;
+  font-size: .74rem;
+  letter-spacing: .03em;
+  margin-left: .4rem;
+}
+
+.fita-rotas a { margin-left: auto; color: var(--cor); font-size: .78rem; }
+
+
+/* --- as caixas de explicacao ------------------------------------------- */
+
+.caixa {
+  background: #fff;
+  border: 1px solid var(--linha);
+  border-left: 3px solid var(--cor);
+  border-radius: 8px;
+  padding: .9rem 1.1rem;
+  margin: 1.3rem 0;
+  font-size: .9rem;
+}
+
+.caixa.destaque { background: #fffbeb; border-color: #fcd34d; border-left-color: #f59e0b; }
+
+.caixa ol, .caixa ul { margin: .5rem 0 0; padding-left: 1.3rem; }
+.caixa li { margin: .35rem 0; }
+.caixa > :last-child { margin-bottom: 0; }
+.caixa pre { margin: .7rem 0; }
+
+.duas-caixas { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 1rem; }
+.duas-caixas .caixa { margin: 0; }
+
+
+/* --- as tres partes do sistema (no mapa) ------------------------------- */
+
+.tres-partes {
+  display: flex;
+  gap: .6rem;
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin: 1.2rem 0;
+}
+
+.parte {
+  flex: 1 1 13rem;
+  background: #fff;
+  border: 1px solid var(--linha);
+  border-top: 3px solid var(--cinza);
+  border-radius: 8px;
+  padding: .9rem 1rem;
+  font-size: .85rem;
+}
+
+.parte.frente { border-top-color: var(--turma); }
+.parte.meio   { border-top-color: var(--oficina); }
+.parte.fundo  { border-top-color: var(--inscricao); }
+
+.parte .etiqueta {
+  display: block;
+  font-size: .68rem;
+  letter-spacing: .08em;
+  color: var(--cinza);
+  margin-bottom: .3rem;
+}
+
+.parte strong { display: block; margin-bottom: .4rem; }
+.parte p { margin: .4rem 0 .7rem; color: var(--cinza); }
+.parte code { display: block; background: var(--fundo); padding: .4rem .5rem; font-size: .72rem; line-height: 1.7; }
+
+.flecha {
+  align-self: center;
+  color: var(--cinza);
+  font-size: 1.4rem;
+  text-align: center;
+  line-height: 1;
+}
+
+.flecha small { font-size: .62rem; }
+
+
+/* --- a tabela das 16 rotas --------------------------------------------- */
+
+.tabela-rotas { font-size: .82rem; }
+.tabela-rotas td.n { text-align: center; font-weight: 700; color: var(--cinza); }
+
+.tabela-rotas tr.grupo td {
+  background: var(--fundo);
+  font-size: .7rem;
+  letter-spacing: .1em;
+  font-weight: 700;
+  color: #fff;
+  padding: .3rem .7rem;
+}
+
+.tabela-rotas tr.grupo.t td { background: var(--turma); }
+.tabela-rotas tr.grupo.a td { background: var(--aluno); }
+.tabela-rotas tr.grupo.o td { background: var(--oficina); }
+.tabela-rotas tr.grupo.i td { background: var(--inscricao); }
+
+
+/* --- o caminho de um clique -------------------------------------------- */
+
+.caminho { margin: 1.2rem 0; }
+
+.etapa {
+  display: flex;
+  gap: .9rem;
+  background: #fff;
+  border: 1px solid var(--linha);
+  border-radius: 8px;
+  padding: .8rem 1rem;
+  margin-bottom: .5rem;
+}
+
+.etapa .passo {
+  flex: 0 0 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  background: var(--cor);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: .85rem;
+}
+
+.etapa strong { display: block; font-size: .9rem; margin-bottom: .25rem; }
+.etapa code { display: inline-block; margin: .1rem 0; font-size: .78rem; }
+.etapa small { display: block; color: var(--cinza); font-size: .8rem; margin-top: .3rem; }
+
+
+/* --- o glossario ------------------------------------------------------- */
+
+.glossario { font-size: .85rem; }
+.glossario td:first-child { white-space: nowrap; vertical-align: top; }
+.glossario td:nth-child(2) { vertical-align: top; }
+.glossario small { color: var(--cinza); }
+.glossario tr.atencao td:first-child code { background: #fee2e2; color: #991b1b; }
+
+
+/* --- os formularios ---------------------------------------------------- */
+
+form {
+  background: #fff;
+  border: 1px solid var(--linha);
+  border-radius: 8px;
+  padding: 1.1rem 1.2rem;
+  margin-bottom: 1.3rem;
+}
+
+.linha { display: flex; gap: 1rem; flex-wrap: wrap; }
+.linha > label       { flex: 1 1 11rem; }
+.linha > label.curto { flex: 0 1 6.5rem; }
+
+label { display: block; margin-bottom: .8rem; }
+
+label > span {
+  display: block;
+  font-size: .76rem;
+  color: var(--cinza);
+  margin-bottom: .25rem;
+}
+
+input, select {
+  width: 100%;
+  padding: .5rem .6rem;
+  border: 1px solid var(--linha);
+  border-radius: 6px;
+  font-size: .95rem;
+  font-family: inherit;
+  background: #fff;
+  color: var(--tinta);
+}
+
+input:focus, select:focus { outline: 2px solid var(--cor); outline-offset: -1px; border-color: var(--cor); }
+input:disabled, select:disabled { background: var(--fundo); color: var(--cinza); }
+
+
+/* --- os botoes --------------------------------------------------------- */
+
+.botoes { display: flex; gap: .6rem; align-items: center; }
+
+button {
+  background: var(--cor);
+  color: #fff;
+  border: 1px solid var(--cor);
+  border-radius: 6px;
+  padding: .5rem 1.1rem;
+  font-size: .9rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:hover { filter: brightness(1.1); }
+
+button.fraco  { background: #fff; color: var(--cinza);    border-color: var(--linha); }
+button.fraco:hover { color: var(--tinta); border-color: var(--cinza); filter: none; }
+
+button.perigo { background: #fff; color: var(--vermelho); border-color: #fca5a5; }
+button.perigo:hover { background: var(--vermelho); color: #fff; filter: none; }
+
+button.mini { padding: .18rem .55rem; font-size: .76rem; }
+
+td.acoes button + button { margin-left: .3rem; }
+
+
+/* --- as tabelas -------------------------------------------------------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid var(--linha);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: .9rem;
+}
+
+th, td { padding: .5rem .75rem; border-bottom: 1px solid var(--linha); text-align: left; }
+
+th { background: var(--fundo); font-size: .72rem; letter-spacing: .04em; color: var(--cinza); text-transform: uppercase; }
+
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: #f1f5fd; }
+
+.fino  { width: 3rem; color: var(--cinza); font-size: .8rem; }
+.num   { text-align: right; font-variant-numeric: tabular-nums; }
+.fim   { text-align: right; }
+
+td.acoes { text-align: right; white-space: nowrap; }
+td.vazio { text-align: center; color: var(--cinza); padding: 1.6rem; font-style: italic; }
+td.cheio { color: var(--vermelho); font-weight: 600; }
+
+
+/* --- o aviso ----------------------------------------------------------- */
+
+/* Repare: o JavaScript nao escolhe cor. Ele liga uma classe, e este
+   arquivo decide a cor. E para isso que os dois sao separados. */
+
+.aviso { min-height: 0; margin: 0 0 1rem; padding: 0; font-size: .9rem; }
+
+.aviso.ok, .aviso.erro {
+  padding: .6rem .9rem;
+  border-radius: 6px;
+  border: 1px solid;
+}
+
+.aviso.ok   { color: #14532d; background: #dcfce7; border-color: #86efac; }
+.aviso.erro { color: #7f1d1d; background: #fee2e2; border-color: #fca5a5; }
+
+
+/* ==========================================================================
+   O PAINEL DO PE DA PAGINA
+
+   Mostra o caminho de cada clique. Fica preso embaixo da tela.
+   ========================================================================== */
+
+.painel {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-top: 3px solid var(--cor);
+  z-index: 30;
+  font-size: .8rem;
+  max-height: 13rem;
+  overflow-y: auto;
+}
+
+.painel.fechado { max-height: 2.4rem; overflow: hidden; }
+
+.painel-topo {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  padding: .45rem 1.2rem;
+  border-bottom: 1px solid #1e293b;
+  position: sticky;
+  top: 0;
+  background: #0f172a;
+}
+
+.painel-topo strong { font-size: .8rem; font-weight: 600; }
+.painel-topo button { margin-left: auto; background: #1e293b; border-color: #334155; color: #94a3b8; }
+
+.painel-corpo { padding: .6rem 1.2rem 1rem; }
+
+.painel-vazio { color: #64748b; margin: .2rem 0; font-size: .8rem; }
+
+.painel-rota {
+  display: inline-block;
+  background: var(--cor);
+  color: #fff;
+  font-weight: 700;
+  font-size: .74rem;
+  letter-spacing: .05em;
+  padding: .15rem .6rem;
+  border-radius: 4px;
+  margin-bottom: .5rem;
+}
+
+.painel-passo {
+  display: flex;
+  gap: .7rem;
+  align-items: baseline;
+  padding: .18rem 0;
+}
+
+.painel-numero {
+  flex: 0 0 1.1rem;
+  color: #64748b;
+  font-weight: 700;
+  text-align: right;
+}
+
+.painel-rotulo {
+  flex: 0 0 11rem;
+  color: #94a3b8;
+}
+
+.painel-valor {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: .12rem .45rem;
+  border-radius: 3px;
+  word-break: break-all;
+}
+
+.painel-passo.bom .painel-valor  { background: #14532d; color: #bbf7d0; }
+.painel-passo.ruim .painel-valor { background: #7f1d1d; color: #fecaca; }
+.painel-passo.ruim .painel-rotulo { color: #fca5a5; }
+
+
+/* --- o rodape ---------------------------------------------------------- */
+
+.rodape {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--linha);
+  color: var(--cinza);
+  font-size: .78rem;
+  text-align: center;
+}
+
+
+/* --- no celular -------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .linha > label, .linha > label.curto { flex: 1 1 100%; }
+  .flecha { display: none; }
+  .painel-rotulo { flex: 0 0 7rem; }
+  .painel-passo { flex-wrap: wrap; }
+}
+
+
+/* --- na impressao, para o mapa virar folha ----------------------------- */
+
+@media print {
+  .topo, .painel, form, .fita-rotas { display: none; }
+  body { background: #fff; padding: 0; }
+  .pagina, .pagina.larga { max-width: none; padding: 0; }
+  pre { background: #fff; color: #000; border: 1px solid #999; }
+  .desenho .t, .desenho .a, .desenho .o, .desenho .i { color: #000; }
+  .caixa, .etapa, .parte { break-inside: avoid; }
+}

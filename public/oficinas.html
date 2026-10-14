@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oficinas</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body class="cor-oficina">
+
+<div class="topo">
+  <a class="marca" href="index.html">Sistema de Oficinas</a>
+  <nav>
+    <a href="index.html">Mapa</a>
+    <a href="turmas.html">Turmas</a>
+    <a href="alunos.html">Alunos</a>
+    <a href="oficinas.html" class="atual">Oficinas</a>
+    <a href="inscricoes.html">Inscricoes</a>
+    <a href="glossario.html">Glossario</a>
+  </nav>
+</div>
+
+<div class="pagina">
+
+  <h1>Oficinas</h1>
+
+  <div class="fita-rotas">
+    <span>esta tela usa</span>
+    <b>ROTA 9</b> listar
+    <b>ROTA 10</b> cadastrar
+    <b>ROTA 11</b> alterar
+    <b>ROTA 12</b> excluir
+    <a href="index.html#rotas">ver o mapa</a>
+  </div>
+
+  <p class="aviso" id="aviso"></p>
+
+  <form id="formulario">
+
+    <input type="hidden" id="campoId" value="">
+
+    <div class="linha">
+
+      <label>
+        <span>Nome da oficina</span>
+        <input type="text" id="campoNome" placeholder="ex: Robotica">
+      </label>
+
+      <label class="curto">
+        <span>Vagas</span>
+        <input type="number" id="campoVagas" min="1" value="20">
+      </label>
+
+    </div>
+
+    <div class="botoes">
+      <button type="submit" id="botaoSalvar">Salvar</button>
+      <button type="button" class="fraco" id="botaoCancelar" hidden>cancelar</button>
+    </div>
+
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="fino">id</th>
+        <th>Nome</th>
+        <th class="num">Vagas</th>
+        <th class="num">Inscritos</th>
+        <th class="fim"></th>
+      </tr>
+    </thead>
+    <tbody id="corpoTabela"></tbody>
+  </table>
+
+  <div class="caixa">
+    A coluna <strong>Inscritos</strong> nao esta guardada em lugar nenhum:
+    ela e CONTADA na hora, pelo banco, com <code>COUNT</code> e
+    <code>GROUP BY</code>, dentro da rota 9. Abra o painel embaixo e
+    recarregue a pagina para ver o comando.
+    <br><br>
+    A Robotica ja vem com 2 vagas e 2 inscritos, de proposito. Va em
+    Inscricoes e tente colocar um terceiro aluno nela.
+  </div>
+
+</div>
+
+<div class="painel" id="painel">
+  <div class="painel-topo">
+    <strong>O que acabou de acontecer</strong>
+    <button type="button" class="fraco mini" id="botaoPainel">esconder</button>
+  </div>
+  <div class="painel-corpo" id="painelCorpo">
+    <p class="painel-vazio">Clique em algo e o caminho completo do seu clique aparece aqui.</p>
+  </div>
+</div>
+
+<script src="js/comum.js"></script>
+<script src="js/oficinas.js"></script>
+
+</body>
+</html>

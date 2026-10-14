@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inscricoes</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body class="cor-inscricao">
+
+<div class="topo">
+  <a class="marca" href="index.html">Sistema de Oficinas</a>
+  <nav>
+    <a href="index.html">Mapa</a>
+    <a href="turmas.html">Turmas</a>
+    <a href="alunos.html">Alunos</a>
+    <a href="oficinas.html">Oficinas</a>
+    <a href="inscricoes.html" class="atual">Inscricoes</a>
+    <a href="glossario.html">Glossario</a>
+  </nav>
+</div>
+
+<div class="pagina">
+
+  <h1>Inscricoes</h1>
+
+  <div class="fita-rotas">
+    <span>esta tela usa</span>
+    <b>ROTA 13</b> listar
+    <b>ROTA 14</b> inscrever
+    <b>ROTA 15</b> mudar a nota
+    <b>ROTA 16</b> cancelar
+    <b>ROTA 5</b> e <b>ROTA 9</b> para encher os dois selects
+    <a href="index.html#rotas">ver o mapa</a>
+  </div>
+
+  <div class="caixa destaque">
+    <strong>Esta e a tabela que liga as outras duas.</strong>
+    Um aluno faz varias oficinas, e uma oficina tem varios alunos. As
+    duas frases sao verdadeiras ao mesmo tempo, e por isso nao existe
+    onde guardar a ligacao nas tabelas aluno ou oficina. A solucao e
+    uma terceira tabela, que guarda os pares:
+
+    <pre><code>inscricao
++----+----------+------------+------+
+| id | aluno_id | oficina_id | nota |
++----+----------+------------+------+
+| 1  |    1     |     1      | 8.5  |
+| 2  |    1     |     2      | 9.0  |   o mesmo aluno, outra oficina
+| 3  |    2     |     1      | 7.0  |   a mesma oficina, outro aluno
++----+----------+------------+------+</code></pre>
+
+    E repare na <strong>nota</strong>: ela nao e do aluno (que tira notas
+    diferentes em oficinas diferentes) nem da oficina (onde cada aluno
+    tira uma nota). Ela e da COMBINACAO dos dois, e so cabe aqui.
+  </div>
+
+  <p class="aviso" id="aviso"></p>
+
+  <form id="formulario">
+
+    <input type="hidden" id="campoId" value="">
+
+    <div class="linha">
+
+      <label>
+        <span>Aluno</span>
+        <select id="campoAluno"></select>
+      </label>
+
+      <label>
+        <span>Oficina</span>
+        <select id="campoOficina"></select>
+      </label>
+
+      <label class="curto">
+        <span>Nota</span>
+        <input type="number" id="campoNota" min="0" max="10" step="0.1" placeholder="--">
+      </label>
+
+    </div>
+
+    <div class="botoes">
+      <button type="submit" id="botaoSalvar">Inscrever</button>
+      <button type="button" class="fraco" id="botaoCancelar" hidden>cancelar</button>
+    </div>
+
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="fino">id</th>
+        <th>Oficina</th>
+        <th>Aluno</th>
+        <th>Turma</th>
+        <th class="num">Nota</th>
+        <th class="fim"></th>
+      </tr>
+    </thead>
+    <tbody id="corpoTabela"></tbody>
+  </table>
+
+  <div class="caixa">
+    <strong>Experimente, nesta ordem, e olhe o painel embaixo a cada vez:</strong>
+    <ol>
+      <li>Inscreva a <b>Ana Prado</b> na <b>Horta</b>. Ela ja esta.
+      O painel vai dizer que quem recusou foi <b>o banco</b>, em ingles:
+      a frase fala de <code>UNIQUE constraint</code>. Foi o
+      <code>UNIQUE (aluno_id, oficina_id)</code> da tabela.</li>
+
+      <li>Inscreva a <b>Carla Reis</b> na <b>Robotica</b>, que tem 2
+      vagas e 2 inscritos. Agora quem recusou foi <b>o servidor</b>, com
+      uma frase em portugues que nos escrevemos. Essa e a regra de
+      negocio, na rota 14.</li>
+
+      <li>Va em <b>Alunos</b> e tente excluir a Ana. Quem recusa e a
+      <b>chave estrangeira</b>, no banco: ela tem inscricao.</li>
+
+      <li>Va em <b>Alunos</b>, troque o nome da Ana, e volte aqui. O
+      nome novo aparece nesta tabela, porque a inscricao guarda o
+      <b>numero</b> dela, nao o nome.</li>
+    </ol>
+    Nos tres primeiros, voce esta vendo tres defesas diferentes, em tres
+    lugares diferentes. A pergunta que vale fazer na aula e: quem disse
+    nao, e por que?
+  </div>
+
+</div>
+
+<div class="painel" id="painel">
+  <div class="painel-topo">
+    <strong>O que acabou de acontecer</strong>
+    <button type="button" class="fraco mini" id="botaoPainel">esconder</button>
+  </div>
+  <div class="painel-corpo" id="painelCorpo">
+    <p class="painel-vazio">Clique em algo e o caminho completo do seu clique aparece aqui.</p>
+  </div>
+</div>
+
+<script src="js/comum.js"></script>
+<script src="js/inscricoes.js"></script>
+
+</body>
+</html>

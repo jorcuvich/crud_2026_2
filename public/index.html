@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapa do sistema</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+<div class="topo">
+  <a class="marca" href="index.html">Sistema de Oficinas</a>
+  <nav>
+    <a href="index.html" class="atual">Mapa</a>
+    <a href="turmas.html">Turmas</a>
+    <a href="alunos.html">Alunos</a>
+    <a href="oficinas.html">Oficinas</a>
+    <a href="inscricoes.html">Inscricoes</a>
+    <a href="glossario.html">Glossario</a>
+  </nav>
+</div>
+
+<div class="pagina larga">
+
+  <h1>O mapa deste sistema</h1>
+  <p class="linha-fina">
+    Esta pagina pode ser projetada e impressa. Ela e o indice de tudo:
+    as quatro tabelas, as dezesseis rotas, e o caminho de um clique.
+  </p>
+
+
+  <!-- ================================================================= -->
+  <h2>1. As tres partes</h2>
+
+  <p>Todo sistema tem estas tres partes, e elas nao se misturam.</p>
+
+  <div class="tres-partes">
+
+    <div class="parte frente">
+      <span class="etiqueta">1. A TELA</span>
+      <strong>roda no navegador</strong>
+      <p>Desenha os campos e escuta os cliques. Ela NAO enxerga o banco de
+      dados. A unica coisa que sabe fazer e pedir.</p>
+      <code>public/turmas.html<br>public/js/turmas.js<br>public/estilo.css</code>
+    </div>
+
+    <div class="flecha">&rarr;<br><small>pede</small></div>
+
+    <div class="parte meio">
+      <span class="etiqueta">2. O SERVIDOR</span>
+      <strong>roda no terminal</strong>
+      <p>Recebe o pedido, confere se faz sentido, fala com o banco e
+      responde. E o unico que conversa com o banco.</p>
+      <code>servidor.js</code>
+    </div>
+
+    <div class="flecha">&rarr;<br><small>consulta</small></div>
+
+    <div class="parte fundo">
+      <span class="etiqueta">3. O BANCO</span>
+      <strong>e um arquivo no disco</strong>
+      <p>Guarda tudo, organizado em tabelas. So guarda: nao decide nada.</p>
+      <code>banco.db<br>(a estrutura esta em banco.js)</code>
+    </div>
+
+  </div>
+
+  <div class="caixa">
+    <strong>Por que o navegador nao pode abrir o banco direto?</strong>
+    Porque se pudesse, qualquer site que voce visitasse leria os arquivos
+    do seu computador. Essa parede e o motivo de existirem as tres partes,
+    e e por isso que a <b>validacao que vale</b> e a do servidor: a tela
+    pode ser contornada, o servidor nao.
+  </div>
+
+
+  <!-- ================================================================= -->
+  <h2>2. As quatro tabelas</h2>
+
+  <pre class="desenho"><code>    <span class="t">turma</span>                                  <span class="o">oficina</span>
+    +------------+                        +-------------+
+    | id         |                        | id          |
+    | nome       |                        | nome        |
+    +------------+                        | vagas       |
+          ^                               +-------------+
+          |  1 para N                           ^
+          |                                     |
+    +------------+                              |
+    | <span class="a">aluno</span>      |                              |
+    | id         |                              |
+    | nome       |                              |
+    | turma_id --+-- aponta para turma          |
+    +------------+                              |
+          ^                                     |
+          |                                     |
+          |      +-------------------+           |
+          +----- | <span class="i">inscricao</span>         | ----------+
+                 | id                |
+                 | aluno_id   -------+-- aponta para aluno
+                 | oficina_id -------+-- aponta para oficina
+                 | nota              |
+                 +-------------------+
+                      N para N</code></pre>
+
+  <div class="duas-caixas">
+
+    <div class="caixa">
+      <strong>1 para N</strong> (turma e aluno)
+      <p>Pergunte as duas coisas opostas:</p>
+      <ul>
+        <li>um aluno esta em quantas turmas? <b>uma</b></li>
+        <li>uma turma tem quantos alunos? <b>varios</b></li>
+      </ul>
+      <p>Uma resposta "um" e uma "varios". A seta (o campo
+      <code>turma_id</code>) vai no lado do <b>muitos</b>, sempre.
+      Do lado da turma nao caberia a lista de todos os alunos.</p>
+    </div>
+
+    <div class="caixa">
+      <strong>N para N</strong> (aluno e oficina)
+      <p>Pergunte as duas coisas opostas:</p>
+      <ul>
+        <li>um aluno faz quantas oficinas? <b>varias</b></li>
+        <li>uma oficina tem quantos alunos? <b>varios</b></li>
+      </ul>
+      <p>Duas vezes "varios". A seta nao cabe em nenhum dos dois lados,
+      e por isso existe a terceira tabela. Ela guarda os pares, e pode
+      ter campos proprios: aqui, a <code>nota</code>.</p>
+    </div>
+
+  </div>
+
+
+  <!-- ================================================================= -->
+  <h2 id="rotas">3. As dezesseis rotas</h2>
+
+  <p class="linha-fina">
+    Cada operacao do sistema tem um numero. Procure
+    <code>ROTA 6</code> na busca do seu editor e voce cai nos tres
+    lugares onde ela vive: no arquivo da tela, no servidor e no banco.
+  </p>
+
+  <table class="tabela-rotas">
+    <thead>
+      <tr>
+        <th class="fino">rota</th>
+        <th>o que faz</th>
+        <th>metodo e endereco</th>
+        <th>no arquivo da tela</th>
+        <th>na tabela</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr class="grupo t"><td colspan="5">TURMAS</td></tr>
+      <tr><td class="n">1</td><td>listar turmas</td>     <td><code>GET /api/turmas</code></td>    <td>js/turmas.js</td><td>turma</td></tr>
+      <tr><td class="n">2</td><td>cadastrar turma</td>   <td><code>POST /api/turmas</code></td>   <td>js/turmas.js</td><td>turma</td></tr>
+      <tr><td class="n">3</td><td>alterar turma</td>     <td><code>PUT /api/turmas/5</code></td>  <td>js/turmas.js</td><td>turma</td></tr>
+      <tr><td class="n">4</td><td>excluir turma</td>     <td><code>DELETE /api/turmas/5</code></td><td>js/turmas.js</td><td>turma</td></tr>
+
+      <tr class="grupo a"><td colspan="5">ALUNOS</td></tr>
+      <tr><td class="n">5</td><td>listar alunos</td>     <td><code>GET /api/alunos</code></td>    <td>js/alunos.js</td><td>aluno + turma</td></tr>
+      <tr><td class="n">6</td><td>cadastrar aluno</td>   <td><code>POST /api/alunos</code></td>   <td>js/alunos.js</td><td>aluno</td></tr>
+      <tr><td class="n">7</td><td>alterar aluno</td>     <td><code>PUT /api/alunos/3</code></td>  <td>js/alunos.js</td><td>aluno</td></tr>
+      <tr><td class="n">8</td><td>excluir aluno</td>     <td><code>DELETE /api/alunos/3</code></td><td>js/alunos.js</td><td>aluno</td></tr>
+
+      <tr class="grupo o"><td colspan="5">OFICINAS</td></tr>
+      <tr><td class="n">9</td><td>listar oficinas, contando os inscritos</td><td><code>GET /api/oficinas</code></td><td>js/oficinas.js</td><td>oficina + inscricao</td></tr>
+      <tr><td class="n">10</td><td>cadastrar oficina</td><td><code>POST /api/oficinas</code></td> <td>js/oficinas.js</td><td>oficina</td></tr>
+      <tr><td class="n">11</td><td>alterar oficina</td>  <td><code>PUT /api/oficinas/2</code></td><td>js/oficinas.js</td><td>oficina</td></tr>
+      <tr><td class="n">12</td><td>excluir oficina</td>  <td><code>DELETE /api/oficinas/2</code></td><td>js/oficinas.js</td><td>oficina</td></tr>
+
+      <tr class="grupo i"><td colspan="5">INSCRICOES</td></tr>
+      <tr><td class="n">13</td><td>listar inscricoes, com os nomes</td><td><code>GET /api/inscricoes</code></td><td>js/inscricoes.js</td><td>as quatro</td></tr>
+      <tr><td class="n">14</td><td>inscrever, conferindo as vagas</td><td><code>POST /api/inscricoes</code></td><td>js/inscricoes.js</td><td>inscricao + oficina</td></tr>
+      <tr><td class="n">15</td><td>mudar a nota</td>     <td><code>PUT /api/inscricoes/7</code></td><td>js/inscricoes.js</td><td>inscricao</td></tr>
+      <tr><td class="n">16</td><td>cancelar inscricao</td><td><code>DELETE /api/inscricoes/7</code></td><td>js/inscricoes.js</td><td>inscricao</td></tr>
+
+    </tbody>
+  </table>
+
+  <div class="caixa">
+    <strong>O endereco diz SOBRE O QUE. O metodo diz O QUE FAZER.</strong>
+    Repare que <code>/api/turmas/5</code> aparece tres vezes na tabela,
+    com verbos diferentes, fazendo coisas diferentes. E a dupla que
+    identifica a operacao.
+  </div>
+
+
+  <!-- ================================================================= -->
+  <h2>4. O caminho de um clique</h2>
+
+  <p class="linha-fina">
+    Voce digitou "3A" na tela de Turmas e clicou em Salvar. Isto e o que
+    acontece, em sete passos.
+  </p>
+
+  <div class="caminho">
+
+    <div class="etapa">
+      <span class="passo">1</span>
+      <div>
+        <strong>o navegador avisa que o formulario foi enviado</strong>
+        <code>formulario.addEventListener('submit', ...)</code>
+        <small>em public/js/turmas.js. A primeira linha de dentro e
+        <code>evento.preventDefault()</code>, senao a pagina recarrega e
+        nada acontece.</small>
+      </div>
+    </div>
+
+    <div class="etapa">
+      <span class="passo">2</span>
+      <div>
+        <strong>a tela monta um objeto com o que foi digitado</strong>
+        <code>var dados = { nome: campoNome.value };</code>
+        <small><code>campoNome</code> e o <code>id</code> do
+        <code>&lt;input&gt;</code> no turmas.html. E assim que o
+        JavaScript acha o campo.</small>
+      </div>
+    </div>
+
+    <div class="etapa">
+      <span class="passo">3</span>
+      <div>
+        <strong>a tela manda pela rede</strong>
+        <code>pedir('POST', '/api/turmas', dados)</code>
+        <small>o metodo POST e o endereco juntos sao a <b>rota 2</b>.
+        O objeto vira texto, porque pela rede so viaja texto.</small>
+      </div>
+    </div>
+
+    <div class="etapa">
+      <span class="passo">4</span>
+      <div>
+        <strong>o servidor reconhece a rota</strong>
+        <code>if (ehApi &amp;&amp; recurso === 'turmas' &amp;&amp; metodo === 'POST')</code>
+        <small>em servidor.js, no bloco marcado <b>ROTA 2</b>. Ele testa
+        os blocos de cima para baixo e para no primeiro que bater.</small>
+      </div>
+    </div>
+
+    <div class="etapa">
+      <span class="passo">5</span>
+      <div>
+        <strong>o servidor confere</strong>
+        <code>if (!dados.nome) { return recusar(...) }</code>
+        <small>a tela ja conferia, e esta e a que vale: alguem pode
+        mandar um pedido sem abrir a sua pagina.</small>
+      </div>
+    </div>
+
+    <div class="etapa">
+      <span class="passo">6</span>
+      <div>
+        <strong>o servidor grava no banco</strong>
+        <code>INSERT INTO turma (nome) VALUES (?)</code>
+        <small>o <code>?</code> e um lugar vazio, preenchido pelo valor
+        que vai separado. Nunca junte o texto digitado dentro do comando:
+        e assim que se evita a injecao de SQL.</small>
+      </div>
+    </div>
+
+    <div class="etapa">
+      <span class="passo">7</span>
+      <div>
+        <strong>o servidor responde e a tela se redesenha</strong>
+        <code>201 { "id": 4 }</code>
+        <small>o id veio do banco: a tela nao tinha como saber esse
+        numero. Depois ela chama <code>listar()</code>, que e a
+        <b>rota 1</b>, e a tabela aparece com a turma nova.</small>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="caixa destaque">
+    <strong>Nao precisa acreditar em nada disso.</strong>
+    Abra qualquer tela do sistema, clique em algo, e olhe o painel no pe
+    da pagina. Ele mostra, a cada clique, o numero da rota, o que a tela
+    enviou, o comando SQL que rodou no banco e o que voltou.
+  </div>
+
+
+  <!-- ================================================================= -->
+  <h2>5. Os arquivos</h2>
+
+  <pre class="desenho"><code>sistema/
+  |
+  +-- LEIA-ME.txt          como rodar e como adaptar
+  +-- banco.js             as 4 tabelas
+  +-- servidor.js          as 16 rotas, uma por uma
+  +-- banco.db             o banco em si (nasce sozinho)
+  |
+  +-- public/              <-- tudo aqui vai para o navegador
+       |
+       +-- index.html      este mapa
+       +-- glossario.html  as palavras em ingles
+       +-- estilo.css      a aparencia de todas as telas
+       |
+       +-- turmas.html     \
+       +-- alunos.html      |  as 4 telas
+       +-- oficinas.html    |
+       +-- inscricoes.html /
+       |
+       +-- js/
+            +-- comum.js       o que as 4 telas usam
+            +-- turmas.js      \
+            +-- alunos.js       |  um arquivo por tela,
+            +-- oficinas.js     |  todos com o mesmo formato
+            +-- inscricoes.js  /</code></pre>
+
+  <div class="caixa">
+    <strong>Repare que o banco.db fica FORA da pasta public.</strong>
+    Isso nao e organizacao: e uma parede. O que esta dentro da public o
+    navegador pode baixar. Se o banco estivesse la, qualquer pessoa
+    digitaria <code>localhost:3000/banco.db</code> e levaria o banco
+    inteiro, com os dados de todos.
+  </div>
+
+  <div class="rodape">
+    Material didatico &middot; Prof. Wagner Jorcuvich
+  </div>
+
+</div>
+
+</body>
+</html>

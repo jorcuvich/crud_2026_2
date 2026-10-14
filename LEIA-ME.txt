@@ -1,0 +1,363 @@
+===========================================================================
+
+   SISTEMA DE OFICINAS
+   modelo didatico, com as 16 rotas numeradas
+
+   Prof. Wagner Jorcuvich
+
+===========================================================================
+
+
+===========================================================================
+   COMO RODAR
+===========================================================================
+
+   1. Instale o Node.js, de  nodejs.org
+      Para conferir, no terminal:   node --version
+
+   2. Abra o terminal NESTA pasta (a que tem o servidor.js dentro).
+
+      Windows: abra a pasta no Explorador, clique na barra de endereco,
+               digite  cmd  e Enter.
+      Mac:     botao direito na pasta, "Novo Terminal na Pasta".
+
+      Para conferir que esta no lugar certo, digite  dir  (Windows) ou
+      ls  (Mac/Linux): o  servidor.js  tem que aparecer na lista.
+
+   3. Instale o unico pacote que o projeto usa:
+
+         npm install
+
+   4. Ligue:
+
+         node servidor.js
+
+   5. Abra o navegador e DIGITE na barra:
+
+         http://localhost:3000
+
+      A primeira pagina e o MAPA do sistema. Comece por ela.
+
+   Para parar: Ctrl + C no terminal.
+
+
+   OS TRES PROBLEMAS QUE ACONTECEM COM TODO MUNDO
+
+   "Cannot find module 'sqlite3'"
+         O npm install nao rodou, ou rodou em outra pasta.
+
+   "EADDRINUSE: port 3000"
+         Ja tem um servidor aberto em outra janela do terminal.
+
+   A pagina abre e as tabelas ficam vazias
+         Olhe a barra de endereco. Tem que ser http://localhost:3000.
+         Se estiver file:///C:/... voce abriu o arquivo com dois cliques
+         e nao existe servidor respondendo.
+
+   E a tecla mais importante: F12, aba Console.
+
+
+===========================================================================
+   A IDEIA DESTE MODELO
+===========================================================================
+
+   Cada operacao do sistema tem um NUMERO, de 1 a 16.
+
+   O mesmo numero aparece em tres arquivos. Para seguir uma operacao de
+   ponta a ponta, o aluno procura  ROTA 6  na busca do editor (Ctrl+F) e
+   cai nos tres lugares:
+
+      public/js/alunos.js    onde a TELA pede
+      servidor.js            onde o SERVIDOR atende e monta o SQL
+      banco.js               em qual TABELA aquilo mexe
+
+   E tem mais dois lugares onde o numero aparece:
+
+      a fita no alto de cada tela, dizendo quais rotas ela usa
+      o painel no pe da pagina, que mostra qual rota acabou de rodar
+
+   O painel e a parte que nao existe em sistema de verdade. A cada
+   clique ele mostra:
+
+      ROTA 6   CADASTRAR ALUNO
+      1  a tela enviou            POST /api/alunos
+      2  com estes dados          {"nome":"Davi","turma_id":"1"}
+      3  o servidor rodou         INSERT INTO aluno (nome, turma_id) VALUES (?, ?)
+         trocando cada ? por      ["Davi","1"]
+      4  e respondeu              201  {"id":4}
+
+   E para o aluno VER a ligacao entre a tela e o servidor, em vez de
+   ter que acreditar nela.
+
+
+===========================================================================
+   AS QUATRO TABELAS
+===========================================================================
+
+      turma  ----<  aluno  >----<  oficina
+                           pela
+                        inscricao
+                      (que tem a nota)
+
+   turma e aluno:      UM PARA MUITOS
+   aluno e oficina:    MUITOS PARA MUITOS, pela tabela inscricao
+
+   O desenho completo, com as setas, esta no mapa, em
+   http://localhost:3000
+
+
+===========================================================================
+   AS 16 ROTAS
+===========================================================================
+
+   TURMAS
+      1   listar turmas              GET    /api/turmas
+      2   cadastrar turma            POST   /api/turmas
+      3   alterar turma              PUT    /api/turmas/5
+      4   excluir turma              DELETE /api/turmas/5
+
+   ALUNOS
+      5   listar alunos (com JOIN)   GET    /api/alunos
+      6   cadastrar aluno            POST   /api/alunos
+      7   alterar aluno              PUT    /api/alunos/3
+      8   excluir aluno              DELETE /api/alunos/3
+
+   OFICINAS
+      9   listar, contando inscritos GET    /api/oficinas
+      10  cadastrar oficina          POST   /api/oficinas
+      11  alterar oficina            PUT    /api/oficinas/2
+      12  excluir oficina            DELETE /api/oficinas/2
+
+   INSCRICOES
+      13  listar (com 3 JOINs)       GET    /api/inscricoes
+      14  inscrever (confere vagas)  POST   /api/inscricoes
+      15  mudar a nota               PUT    /api/inscricoes/7
+      16  cancelar inscricao         DELETE /api/inscricoes/7
+
+
+===========================================================================
+   OS ARQUIVOS
+===========================================================================
+
+                              codigo   com comentarios
+      banco.js                   56        125    as 4 tabelas
+      servidor.js               380        748    as 16 rotas
+      public/
+        index.html                         o MAPA (abre primeiro)
+        glossario.html                     as palavras em ingles
+        estilo.css                         a aparencia
+        turmas.html                 74      93
+        alunos.html                              as 4 telas
+        oficinas.html
+        inscricoes.html
+        js/
+          comum.js               125       241   o que as 4 telas usam
+          turmas.js               93       203
+          alunos.js              119       246   um arquivo por tela,
+          oficinas.js            105       193   todos no mesmo formato
+          inscricoes.js          152       290
+
+   Nenhum arquivo de tela passa de 160 linhas de codigo. O servidor e o
+   maior porque as 16 rotas estao escritas uma por uma, por extenso.
+
+
+   POR QUE AS ROTAS SE REPETEM
+
+   A rota 2 e a rota 6 e a rota 10 fazem a mesma coisa, com outros
+   nomes. Daria para escrever uma funcao que serve as tres e encurtar o
+   arquivo pela metade.
+
+   Nao foi feito de proposito. Com a funcao generica, o aluno abre o
+   servidor.js procurando "onde cadastra um aluno" e nao acha: o codigo
+   fabrica o comando em vez de mostra-lo.
+
+   Repetido, ele abre, acha ROTA 6, e le o INSERT inteiro ali, em sete
+   linhas. E quando tiver lido a rota 2, ja sabe ler a 6, a 10 e a 14.
+
+   Repeticao e didatica. Abstracao e para depois.
+
+
+===========================================================================
+   O QUE MOSTRAR NA AULA
+===========================================================================
+
+   TRES RECUSAS, EM TRES LUGARES DIFERENTES
+
+   Abra a tela de Inscricoes e faca na ordem, olhando o painel a cada vez.
+   A pergunta que vale e sempre: QUEM disse nao, e por que?
+
+
+   1. Inscreva a Ana Prado na Horta. Ela ja esta.
+
+      O painel diz:  recusou O BANCO, em ingles
+      A frase fala de UNIQUE constraint.
+
+      Quem recusou foi o  UNIQUE (aluno_id, oficina_id)  da tabela, no
+      banco.js. Ninguem escreveu um  if  para isso.
+
+
+   2. Inscreva a Carla Reis na Robotica, que tem 2 vagas e 2 inscritos.
+
+      O painel diz:  recusou O SERVIDOR, com frase nossa
+      E diz tambem:  nao chegou ao banco
+
+      Quem recusou foi o codigo da rota 14, que contou os inscritos e
+      decidiu. Isso e REGRA DE NEGOCIO: vem da atividade, nao da
+      estrutura dos dados. O banco nao tem como saber disso.
+
+
+   3. Va em Alunos e tente excluir a Ana.
+
+      O painel diz:  recusou O BANCO
+      A frase fala de FOREIGN KEY constraint.
+
+      Ela tem inscricao. Se o aluno fosse apagado, a inscricao ficaria
+      apontando para o vazio.
+
+
+   E UMA PROVA DE QUE GUARDAR O NUMERO FUNCIONA
+
+   4. Va em Alunos, troque o nome da Ana, e volte em Inscricoes.
+
+      O nome novo aparece na tabela de inscricoes.
+
+      Voce mudou em UM lugar e mudou em todos, porque a inscricao
+      guarda o NUMERO dela, nao o nome. Se o nome estivesse escrito
+      dentro de cada inscricao, seria preciso corrigir uma por uma.
+
+
+   MOSTRE TAMBEM QUE A TELA PODE SER CONTORNADA
+
+   Abra o F12, aba Console, e cole isto:
+
+      fetch('/api/turmas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome: '' })
+      }).then(r => r.json()).then(console.log)
+
+   Dez segundos, e o formulario foi pulado. O servidor recusa de novo,
+   e e por isso que a validacao dele existe mesmo com a da tela.
+
+
+===========================================================================
+   COMO ADAPTAR AO PROJETO DO ALUNO
+===========================================================================
+
+   O desenho das quatro tabelas serve para quase qualquer sistema.
+   O que muda sao os nomes:
+
+   este modelo   biblioteca      loja            clinica        academia
+   -----------   -------------   -------------   ------------   ----------
+   turma         categoria       categoria       convenio       plano
+   aluno         livro           produto         paciente       aluno
+   oficina       autor           etiqueta        procedimento   modalidade
+   inscricao     livro_autor     produto_etiq    atendimento    matricula
+     + nota        (sem extra)     + quantidade    + valor        + nivel
+
+
+   PARA DESCOBRIR SE DUAS TABELAS SAO 1:N OU N:N, faca as duas
+   perguntas opostas:
+
+      "um livro tem quantos autores?"       -> VARIOS
+      "um autor escreveu quantos livros?"   -> VARIOS
+      duas vezes "varios"  =  N:N, precisa da tabela do meio
+
+      "um livro esta em quantas categorias?" -> uma
+      "uma categoria tem quantos livros?"    -> VARIOS
+      um "um" e um "varios"  =  1:N, a seta vai no lado do MUITOS
+
+
+   OS CINCO LUGARES A MEXER, PARA CADA TABELA
+
+   1. banco.js
+      o CREATE TABLE, com FOREIGN KEY para cada campo que termina em _id
+
+      [ ] quem e APONTADO nasce ANTES de quem aponta
+      [ ] PRAGMA foreign_keys = ON continua na primeira linha
+      [ ] UNIQUE (a_id, b_id) na tabela de ligacao
+      [ ] troque os INSERT de exemplo
+
+   2. servidor.js
+      copie um bloco de 4 rotas e troque os nomes
+
+      [ ] renumere as rotas, e mantenha os numeros em ordem
+      [ ] ? para todo valor no SQL, nunca junte com +
+      [ ] function(erro), nunca seta, onde usar this.lastID
+      [ ] teste this.changes === 0 e responda 404
+
+   3. public/<nome>.html
+      copie o turmas.html, que e o menor
+
+      [ ] mantenha os ids: campoId, campoNome, corpoTabela,
+          botaoSalvar, botaoCancelar, aviso, painel, painelCorpo
+      [ ] troque os numeros da fita de rotas
+      [ ] acrescente o link no menu das OUTRAS paginas tambem
+
+   4. public/js/<nome>.js
+      copie o turmas.js e troque os nomes e os enderecos
+
+      [ ] os comentarios ROTA n, para a busca do editor achar
+
+   5. public/index.html
+      acrescente as linhas novas na tabela das rotas, e a tabela nova no
+      desenho
+
+      [ ] e no estilo.css, uma cor nova em :root e um body.cor-<nome>
+
+   6. APAGUE o banco.db e rode de novo
+
+      Obrigatorio depois de mexer no banco.js. O
+      CREATE TABLE IF NOT EXISTS nao recria tabela que ja existe, entao
+      coluna nova nunca apareceria, e o erro seria
+
+         SQLITE_ERROR: table X has no column named Y
+
+      com o codigo certo na sua frente.
+
+   7. TESTE O QUE DEVE DAR ERRADO
+
+      [ ] salvar vazio        -> recusa com mensagem clara?
+      [ ] salvar repetido     -> recusa, se for UNIQUE?
+      [ ] excluir em uso      -> recusa pela chave estrangeira?
+      [ ] F12: nenhum erro vermelho no Console?
+
+      Esse grupo e o que quase ninguem testa. Que o sistema RECUSA o que
+      deve recusar e tao importante quanto que ele aceita o que deve.
+
+
+===========================================================================
+   AS REGRAS QUE NAO MUDAM
+===========================================================================
+
+   NO BANCO      guarde o NUMERO, nao o nome. Cada informacao em um
+                 lugar so. A excecao e o valor que descreve um
+                 acontecimento passado: esse e copiado, porque o passado
+                 nao muda quando o cadastro muda.
+
+   NO SQL        use  ?  para os valores, nunca junte com  + .
+                 E nunca esqueca o WHERE no UPDATE e no DELETE: sem
+                 ele o comando funciona e atinge a tabela inteira.
+
+   NO NODE       function(erro), nunca seta, nos callbacks do banco.
+                 E teste this.changes === 0 depois de UPDATE e DELETE.
+
+   NA TELA       textContent, nunca innerHTML, com texto que alguem
+                 digitou. E evento.preventDefault() na primeira linha
+                 do submit.
+
+   NAS ROTAS     do mais especifico para o mais generico. O bloco que
+                 serve os arquivos fica no FIM do servidor.js.
+
+   NA VALIDACAO  nos dois lados. Na tela por gentileza, no servidor por
+                 necessidade.
+
+   Todas elas estao explicadas, uma por uma, na pagina Glossario do
+   sistema.
+
+
+===========================================================================
+
+   Prof. Wagner Jorcuvich
+
+===========================================================================

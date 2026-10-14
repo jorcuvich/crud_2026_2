@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Glossario</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+<div class="topo">
+  <a class="marca" href="index.html">Sistema de Oficinas</a>
+  <nav>
+    <a href="index.html">Mapa</a>
+    <a href="turmas.html">Turmas</a>
+    <a href="alunos.html">Alunos</a>
+    <a href="oficinas.html">Oficinas</a>
+    <a href="inscricoes.html">Inscricoes</a>
+    <a href="glossario.html" class="atual">Glossario</a>
+  </nav>
+</div>
+
+<div class="pagina larga">
+
+  <h1>As palavras em ingles</h1>
+  <p class="linha-fina">
+    Toda palavra em ingles que aparece neste sistema esta nesta lista,
+    com o que ela faz e onde ela aparece. Elas sao do JavaScript, do SQL
+    e do HTML, e nao da para traduzir: sao os nomes de verdade, os
+    mesmos que voce vai encontrar em qualquer tutorial.
+  </p>
+
+
+  <!-- ================================================================= -->
+  <h2>No banco de dados (SQL)</h2>
+
+  <table class="glossario">
+    <thead><tr><th>palavra</th><th>o que faz</th><th>no nosso codigo</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>CREATE TABLE</code></td>
+        <td>cria uma tabela</td>
+        <td><code>CREATE TABLE IF NOT EXISTS turma (...)</code><br>
+            <small>o <code>IF NOT EXISTS</code> quer dizer "se ela ainda
+            nao existir". Sem ele, rodar o programa duas vezes daria erro.</small></td>
+      </tr>
+      <tr>
+        <td><code>SELECT</code></td>
+        <td>me mostre</td>
+        <td><code>SELECT * FROM turma</code><br>
+            <small>o <code>*</code> quer dizer "todas as colunas"</small></td>
+      </tr>
+      <tr>
+        <td><code>INSERT INTO</code></td>
+        <td>guarde um novo</td>
+        <td><code>INSERT INTO turma (nome) VALUES (?)</code></td>
+      </tr>
+      <tr>
+        <td><code>UPDATE</code> e <code>SET</code></td>
+        <td>troque os dados</td>
+        <td><code>UPDATE turma SET nome = ? WHERE id = ?</code></td>
+      </tr>
+      <tr>
+        <td><code>DELETE FROM</code></td>
+        <td>apague</td>
+        <td><code>DELETE FROM turma WHERE id = ?</code></td>
+      </tr>
+      <tr class="atencao">
+        <td><code>WHERE</code></td>
+        <td>so nas linhas em que...</td>
+        <td><small>A palavra mais perigosa do SQL. Esquecer o
+            <code>WHERE</code> num DELETE <b>nao da erro</b>: funciona, e
+            apaga a tabela inteira.</small></td>
+      </tr>
+      <tr>
+        <td><code>ORDER BY</code></td>
+        <td>ordene por</td>
+        <td><code>ORDER BY nome</code> &nbsp; (de A a Z)</td>
+      </tr>
+      <tr>
+        <td><code>JOIN</code> e <code>ON</code></td>
+        <td>junte outra tabela, casando por...</td>
+        <td><code>INNER JOIN turma ON turma.id = aluno.turma_id</code><br>
+            <small>e assim que o nome da turma chega na tela de alunos.
+            Esta na rota 5.</small></td>
+      </tr>
+      <tr>
+        <td><code>INNER</code> e <code>LEFT</code></td>
+        <td>o tipo de juncao</td>
+        <td><small><b>INNER</b> traz a linha so se o par existir nos dois
+            lados. <b>LEFT</b> traz sempre, e vem vazio quando nao ha par.
+            A rota 9 usa LEFT para a oficina sem inscritos aparecer com
+            zero.</small></td>
+      </tr>
+      <tr>
+        <td><code>AS</code></td>
+        <td>apelido para a coluna</td>
+        <td><code>turma.nome AS turma_nome</code><br>
+            <small>obrigatorio quando duas tabelas tem colunas com o
+            mesmo nome, e as duas se chamam "nome"</small></td>
+      </tr>
+      <tr>
+        <td><code>COUNT</code></td>
+        <td>conte quantas linhas</td>
+        <td><code>COUNT(inscricao.id) AS inscritos</code></td>
+      </tr>
+      <tr>
+        <td><code>GROUP BY</code></td>
+        <td>junte as linhas em grupos</td>
+        <td><small>com <code>GROUP BY oficina.id</code>, o COUNT conta
+            uma vez por oficina, em vez de contar a tabela toda</small></td>
+      </tr>
+      <tr>
+        <td><code>PRIMARY KEY</code></td>
+        <td>esta coluna identifica a linha</td>
+        <td><small>e sempre o <code>id</code> aqui</small></td>
+      </tr>
+      <tr>
+        <td><code>AUTOINCREMENT</code></td>
+        <td>preencha sozinho, somando 1</td>
+        <td><small>voce nunca escreve o id: o banco escreve</small></td>
+      </tr>
+      <tr>
+        <td><code>FOREIGN KEY</code> e <code>REFERENCES</code></td>
+        <td>esta coluna aponta para outra tabela</td>
+        <td><code>FOREIGN KEY (turma_id) REFERENCES turma(id)</code><br>
+            <small>depois desta linha, o banco recusa excluir uma turma
+            que tem alunos</small></td>
+      </tr>
+      <tr>
+        <td><code>NOT NULL</code></td>
+        <td>nao pode ficar vazio</td>
+        <td><small>use so no que realmente impede o registro de existir</small></td>
+      </tr>
+      <tr>
+        <td><code>UNIQUE</code></td>
+        <td>este valor nao pode repetir</td>
+        <td><code>UNIQUE (aluno_id, oficina_id)</code><br>
+            <small>com dois campos juntos, e a COMBINACAO que nao pode
+            repetir: o mesmo aluno nao entra duas vezes na mesma oficina</small></td>
+      </tr>
+      <tr>
+        <td><code>NULL</code></td>
+        <td>vazio, "nao sei"</td>
+        <td><small>diferente de zero e diferente de texto vazio. A nota
+            de quem se inscreveu e ainda nao foi avaliado e NULL.</small></td>
+      </tr>
+      <tr>
+        <td><code>PRAGMA</code></td>
+        <td>um ajuste do SQLite</td>
+        <td><code>PRAGMA foreign_keys = ON</code><br>
+            <small>liga a protecao das chaves estrangeiras, que vem
+            desligada. Sem esta linha, as FOREIGN KEY nao protegem nada.</small></td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ================================================================= -->
+  <h2>No servidor (Node)</h2>
+
+  <table class="glossario">
+    <thead><tr><th>palavra</th><th>o que faz</th><th>no nosso codigo</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>require</code></td>
+        <td>traga uma ferramenta de outro arquivo</td>
+        <td><code>var banco = require('./banco');</code><br>
+            <small>o <code>./</code> quer dizer "o arquivo desta pasta"</small></td>
+      </tr>
+      <tr>
+        <td><code>module.exports</code></td>
+        <td>entregue isto para quem der require</td>
+        <td><small>a ultima linha do banco.js. Sem ela, o servidor
+            receberia um objeto vazio.</small></td>
+      </tr>
+      <tr>
+        <td><code>createServer</code></td>
+        <td>crie o servidor</td>
+        <td><small>a funcao que vai dentro dele roda UMA VEZ POR PEDIDO
+            que chega</small></td>
+      </tr>
+      <tr>
+        <td><code>listen</code></td>
+        <td>fique escutando nesta porta</td>
+        <td><code>servidor.listen(3000)</code><br>
+            <small>e por isso que o endereco termina com <code>:3000</code></small></td>
+      </tr>
+      <tr>
+        <td><code>run</code>, <code>get</code>, <code>all</code></td>
+        <td>os tres jeitos de falar com o banco</td>
+        <td><small><b>run</b> para mudar algo (INSERT, UPDATE, DELETE).
+            <b>get</b> para pegar UMA linha. <b>all</b> para pegar
+            VARIAS.</small></td>
+      </tr>
+      <tr class="atencao">
+        <td><code>this.lastID</code></td>
+        <td>o id que o banco acabou de criar</td>
+        <td><small>so funciona dentro de <code>function (erro) {}</code>.
+            Com a seta <code>(erro) =&gt; {}</code> ele vem vazio, e
+            nenhum erro aparece.</small></td>
+      </tr>
+      <tr class="atencao">
+        <td><code>this.changes</code></td>
+        <td>quantas linhas mudaram</td>
+        <td><small>zero quer dizer que aquele id nao existe. Sem testar
+            isso, alterar o registro 999 responderia "alterado com
+            sucesso".</small></td>
+      </tr>
+      <tr>
+        <td><code>serialize</code></td>
+        <td>um comando depois do outro, na ordem</td>
+        <td><small>sem ele, os comandos do banco.js sairiam todos ao mesmo
+            tempo, e o INSERT poderia chegar antes do CREATE TABLE</small></td>
+      </tr>
+      <tr>
+        <td><code>JSON.parse</code></td>
+        <td>texto que vira objeto</td>
+        <td><small>o que chegou pela rede e texto; o parse transforma em
+            algo que o programa consegue ler</small></td>
+      </tr>
+      <tr>
+        <td><code>JSON.stringify</code></td>
+        <td>objeto que vira texto</td>
+        <td><small>o contrario, para poder viajar pela rede</small></td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ================================================================= -->
+  <h2>Na tela (JavaScript do navegador)</h2>
+
+  <table class="glossario">
+    <thead><tr><th>palavra</th><th>o que faz</th><th>no nosso codigo</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>document</code></td>
+        <td>a pagina inteira</td>
+        <td><small>o nome tecnico dessa representacao da pagina e
+            <b>DOM</b></small></td>
+      </tr>
+      <tr>
+        <td><code>getElementById</code></td>
+        <td>ache o pedaco da pagina com este id</td>
+        <td><code>document.getElementById('campoNome')</code><br>
+            <small>se o id estiver escrito diferente no HTML, voce recebe
+            o erro "Cannot read properties of null"</small></td>
+      </tr>
+      <tr>
+        <td><code>createElement</code></td>
+        <td>crie um pedaco novo de pagina</td>
+        <td><code>document.createElement('tr')</code><br>
+            <small>ele ainda nao esta na pagina: so existe</small></td>
+      </tr>
+      <tr>
+        <td><code>appendChild</code></td>
+        <td>pendure dentro de</td>
+        <td><small>AGORA ele entra na pagina. Criar e pendurar sao duas
+            coisas.</small></td>
+      </tr>
+      <tr class="atencao">
+        <td><code>textContent</code></td>
+        <td>o texto de dentro, como texto puro</td>
+        <td><small>use SEMPRE este com texto que alguem digitou</small></td>
+      </tr>
+      <tr class="atencao">
+        <td><code>innerHTML</code></td>
+        <td>o conteudo de dentro, tratado como CODIGO HTML</td>
+        <td><small>so usamos para LIMPAR (<code>innerHTML = ''</code>).
+            Com texto de pessoa, um nome com <code>&lt;script&gt;</code>
+            dentro seria executado. Nome do ataque: <b>XSS</b>.</small></td>
+      </tr>
+      <tr>
+        <td><code>addEventListener</code></td>
+        <td>escute isto, e quando acontecer faca aquilo</td>
+        <td><code>botao.addEventListener('click', ...)</code><br>
+            <small>os que usamos: <b>click</b>, <b>submit</b> (enviar
+            formulario) e <b>DOMContentLoaded</b> (a pagina carregou)</small></td>
+      </tr>
+      <tr class="atencao">
+        <td><code>preventDefault</code></td>
+        <td>nao faca o que voce normalmente faria</td>
+        <td><small>obrigatorio no submit. Sem ele, o navegador recarrega
+            a pagina inteira e nada e salvo. E o defeito numero 1 de quem
+            comeca: a tela pisca e nada acontece.</small></td>
+      </tr>
+      <tr>
+        <td><code>fetch</code></td>
+        <td>va buscar isto no servidor</td>
+        <td><small>nao devolve a resposta na hora: devolve uma
+            <b>promessa</b> de resposta</small></td>
+      </tr>
+      <tr>
+        <td><code>then</code></td>
+        <td>quando chegar, faca isto</td>
+        <td><small>porque a rede demora. Se o navegador ficasse parado
+            esperando, a pagina travaria.</small></td>
+      </tr>
+      <tr>
+        <td><code>catch</code></td>
+        <td>se nem der para falar, faca isto</td>
+        <td><small>diferente de uma resposta negativa: aqui o servidor
+            nao respondeu nada</small></td>
+      </tr>
+      <tr>
+        <td><code>Promise.all</code></td>
+        <td>espere varios terminarem</td>
+        <td><small>no inscricoes.js, para os dois selects. Os pedidos
+            saem ao mesmo tempo, em vez de um depois do outro.</small></td>
+      </tr>
+      <tr>
+        <td><code>forEach</code></td>
+        <td>para cada item da lista, faca isto</td>
+        <td><small>com 3 turmas, o pedaco de dentro roda 3 vezes</small></td>
+      </tr>
+      <tr>
+        <td><code>value</code></td>
+        <td>o que esta escrito no campo</td>
+        <td><small>e sempre TEXTO, mesmo num campo de numero</small></td>
+      </tr>
+      <tr>
+        <td><code>hidden</code></td>
+        <td>esconda este elemento</td>
+        <td><small>usamos no botao cancelar, que so aparece durante uma
+            edicao</small></td>
+      </tr>
+      <tr>
+        <td><code>disabled</code></td>
+        <td>trave este campo</td>
+        <td><small>na tela de inscricoes, ao mudar a nota: os dois
+            selects travam, porque a rota 15 muda so a nota</small></td>
+      </tr>
+      <tr>
+        <td><code>confirm</code></td>
+        <td>mostre uma pergunta de sim ou nao</td>
+        <td><small>antes de excluir, sempre</small></td>
+      </tr>
+      <tr>
+        <td><code>console.log</code></td>
+        <td>escreva isto no painel do F12</td>
+        <td><small>a ferramenta mais util quando algo nao funciona:
+            imprima o que voce acha que sabe</small></td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ================================================================= -->
+  <h2>No HTML</h2>
+
+  <table class="glossario">
+    <thead><tr><th>palavra</th><th>o que faz</th><th>no nosso codigo</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>id</code></td>
+        <td>apelido unico na pagina</td>
+        <td><small>e como o JavaScript acha aquele elemento. Nao pode
+            repetir na mesma pagina.</small></td>
+      </tr>
+      <tr>
+        <td><code>class</code></td>
+        <td>etiqueta que varios elementos podem ter</td>
+        <td><small>e por ela que o CSS pinta. Um elemento pode ter
+            varias, separadas por espaco.</small></td>
+      </tr>
+      <tr>
+        <td><code>type="hidden"</code></td>
+        <td>um campo que nao aparece na tela</td>
+        <td><small>e ele que decide se o botao Salvar vai cadastrar ou
+            alterar</small></td>
+      </tr>
+      <tr>
+        <td><code>type="button"</code></td>
+        <td>um botao que so clica</td>
+        <td><small>obrigatorio em botao dentro de formulario que NAO e
+            para enviar. Sem isso, o botao cancelar salvaria.</small></td>
+      </tr>
+      <tr>
+        <td><code>select</code> e <code>option</code></td>
+        <td>uma lista de escolha</td>
+        <td><small>cada option carrega duas coisas: o <code>value</code>
+            (o numero, que vai para o banco) e o texto (o nome, que a
+            pessoa le)</small></td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ================================================================= -->
+  <h2>Os numeros que o servidor responde</h2>
+
+  <table class="glossario">
+    <thead><tr><th>numero</th><th>quer dizer</th><th>quando</th></tr></thead>
+    <tbody>
+      <tr><td><code>200</code></td><td>deu certo</td><td>aqui esta o que voce pediu</td></tr>
+      <tr><td><code>201</code></td><td>criado</td><td>gravei, e o id e tal</td></tr>
+      <tr><td><code>400</code></td><td>voce pediu errado</td><td>faltou campo, ou o banco recusou</td></tr>
+      <tr><td><code>404</code></td><td>nao existe</td><td>esse id nao esta aqui</td></tr>
+      <tr><td><code>500</code></td><td>EU errei</td><td>defeito no servidor. Va olhar o terminal.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caixa">
+    <strong>A diferenca entre 400 e 500 e a mais importante:</strong>
+    400 quer dizer "o problema e no seu pedido"; 500 quer dizer "o
+    problema e meu". Quando voce ver 500, pare de mexer na tela e va
+    olhar o terminal onde o servidor esta rodando.
+  </div>
+
+  <div class="rodape">
+    Material didatico &middot; Prof. Wagner Jorcuvich
+  </div>
+
+</div>
+
+</body>
+</html>
